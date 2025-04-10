@@ -8,13 +8,14 @@ gui.Name = "CoolUI"
 gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
 
 local main = Instance.new("Frame")
-main.Size = UDim2.new(0, 200, 0, 200)
-main.Position = UDim2.new(0.5, -100, 0.5, -100)
-main.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+main.Size = UDim2.new(0, 200, 0, 200) -- updated to fit new button
+main.Position = UDim2.new(0.5, -100, 0.5, -80)
+main.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- neon green
 main.BorderSizePixel = 0
 main.Parent = gui
 Instance.new("UICorner", main).CornerRadius = UDim.new(0, 10)
 
+-- Neon-like stroke glow effect
 local stroke = Instance.new("UIStroke")
 stroke.Color = Color3.fromRGB(0, 255, 100)
 stroke.Thickness = 2
@@ -22,6 +23,7 @@ stroke.Transparency = 0.3
 stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 stroke.Parent = main
 
+-- Optional: darker green gradient to simulate glow depth
 local bg = Instance.new("UIGradient")
 bg.Color = ColorSequence.new({
     ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 255, 150)),
@@ -43,7 +45,7 @@ label.Size = UDim2.new(1, 0, 0, 30)
 label.BackgroundTransparency = 1
 label.Text = "Rin Hub"
 label.TextColor3 = Color3.fromRGB(255, 255, 255)
-label.TextStrokeTransparency = 0.7
+label.TextStrokeTransparency = 0.7 -- glow-like stroke
 label.TextSize = 16
 label.Font = Enum.Font.GothamBold
 label.Parent = main
@@ -61,7 +63,7 @@ local function makeToggle(text, yPos)
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 40, 0, 20)
     btn.Position = UDim2.new(1, -45, 0.5, -10)
-    btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- black when OFF
+    btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- changed to black
     btn.BorderSizePixel = 0
     btn.Text = ""
     btn.Parent = base
@@ -90,7 +92,7 @@ local function makeToggle(text, yPos)
     btn.MouseButton1Click:Connect(function()
         on = not on
         local goals = {
-            [btn] = {BackgroundColor3 = on and Color3.fromRGB(0, 255, 127) or Color3.fromRGB(0, 0, 0)},
+            [btn] = {BackgroundColor3 = on and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(0, 0, 0)}, -- stays black
             [dot] = {Position = on and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)}
         }
         for obj, goal in pairs(goals) do
@@ -99,32 +101,16 @@ local function makeToggle(text, yPos)
     end)
 end
 
--- Add toggle buttons
 makeToggle("Freeze Trade", 40)
 makeToggle("Auto Accept", 80)
 makeToggle("Auto Add Items", 120)
+makeToggle("Add Best Fruit", 160) -- new toggle
 
--- Add "Add Best Fruit" button
-local fruitBtn = Instance.new("TextButton")
-fruitBtn.Size = UDim2.new(0.9, 0, 0, 30)
-fruitBtn.Position = UDim2.new(0.5, 0, 0, 160)
-fruitBtn.AnchorPoint = Vector2.new(0.5, 0)
-fruitBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-fruitBtn.TextColor3 = Color3.fromRGB(0, 255, 0)
-fruitBtn.Text = "Add Best Fruit"
-fruitBtn.Font = Enum.Font.GothamBold
-fruitBtn.TextSize = 14
-fruitBtn.Parent = main
-Instance.new("UICorner", fruitBtn).CornerRadius = UDim.new(0, 6)
-
--- Optional functionality:
-fruitBtn.MouseButton1Click:Connect(function()
-    print("Best fruit added!")
-    -- Add your custom logic here
-end)
-
--- Drag logic
-local drag = { enabled = false, start = nil, startPos = nil }
+local drag = {
+    enabled = false,
+    start = nil,
+    startPos = nil
+}
 
 main.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
