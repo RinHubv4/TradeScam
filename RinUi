@@ -48,20 +48,60 @@ label.TextSize = 16
 label.Font = Enum.Font.GothamBold
 label.Parent = main
 
+-- Exit and Minimize Buttons
+local exitBtn = Instance.new("TextButton")
+exitBtn.Size = UDim2.new(0, 20, 0, 20)
+exitBtn.Position = UDim2.new(1, -25, 0, 5)
+exitBtn.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+exitBtn.TextColor3 = Color3.new(1, 1, 1)
+exitBtn.Text = "X"
+exitBtn.Font = Enum.Font.GothamBold
+exitBtn.TextSize = 14
+exitBtn.Parent = main
+Instance.new("UICorner", exitBtn).CornerRadius = UDim.new(1, 0)
+
+exitBtn.MouseButton1Click:Connect(function()
+    gui:Destroy()
+end)
+
+local minimizeBtn = Instance.new("TextButton")
+minimizeBtn.Size = UDim2.new(0, 20, 0, 20)
+minimizeBtn.Position = UDim2.new(1, -50, 0, 5)
+minimizeBtn.BackgroundColor3 = Color3.fromRGB(255, 170, 0)
+minimizeBtn.TextColor3 = Color3.new(1, 1, 1)
+minimizeBtn.Text = "-"
+minimizeBtn.Font = Enum.Font.GothamBold
+minimizeBtn.TextSize = 16
+minimizeBtn.Parent = main
+Instance.new("UICorner", minimizeBtn).CornerRadius = UDim.new(1, 0)
+
+local minimized = false
+
+local container = Instance.new("Frame")
+container.Size = UDim2.new(1, 0, 1, -35)
+container.Position = UDim2.new(0, 0, 0, 35)
+container.BackgroundTransparency = 1
+container.Parent = main
+
+minimizeBtn.MouseButton1Click:Connect(function()
+    minimized = not minimized
+    container.Visible = not minimized
+end)
+
 local function makeToggle(text, yPos)
     local base = Instance.new("Frame")
     base.Size = UDim2.new(0.9, 0, 0, 30)
     base.Position = UDim2.new(0.5, 0, 0, yPos)
-    base.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
+    base.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
     base.BorderSizePixel = 0
     base.AnchorPoint = Vector2.new(0.5, 0)
-    base.Parent = main
+    base.Parent = container
     Instance.new("UICorner", base).CornerRadius = UDim.new(0, 6)
 
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 40, 0, 20)
     btn.Position = UDim2.new(1, -45, 0.5, -10)
-    btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- black when OFF
+    btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
     btn.BorderSizePixel = 0
     btn.Text = ""
     btn.Parent = base
@@ -99,32 +139,29 @@ local function makeToggle(text, yPos)
     end)
 end
 
--- Add toggle buttons
-makeToggle("Freeze Trade", 40)
-makeToggle("Auto Accept", 80)
-makeToggle("Auto Add Items", 120)
+makeToggle("Freeze Trade", 0)
+makeToggle("Auto Accept", 40)
+makeToggle("Auto Add Items", 80)
 
--- Add "Add Best Fruit" button
-local fruitBtn = Instance.new("TextButton")
-fruitBtn.Size = UDim2.new(0.9, 0, 0, 30)
-fruitBtn.Position = UDim2.new(0.5, 0, 0, 160)
-fruitBtn.AnchorPoint = Vector2.new(0.5, 0)
-fruitBtn.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-fruitBtn.TextColor3 = Color3.fromRGB(0, 255, 0)
-fruitBtn.Text = "Add Best Fruit"
-fruitBtn.Font = Enum.Font.GothamBold
-fruitBtn.TextSize = 14
-fruitBtn.Parent = main
-Instance.new("UICorner", fruitBtn).CornerRadius = UDim.new(0, 6)
+-- Add Best Fruit button
+local bestFruit = Instance.new("TextButton")
+bestFruit.Size = UDim2.new(0.9, 0, 0, 30)
+bestFruit.Position = UDim2.new(0.5, 0, 0, 120)
+bestFruit.AnchorPoint = Vector2.new(0.5, 0)
+bestFruit.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+bestFruit.TextColor3 = Color3.fromRGB(255, 255, 255)
+bestFruit.Text = "Add Best Fruit"
+bestFruit.Font = Enum.Font.Gotham
+bestFruit.TextSize = 14
+bestFruit.Parent = container
+Instance.new("UICorner", bestFruit).CornerRadius = UDim.new(0, 6)
 
--- Optional functionality:
-fruitBtn.MouseButton1Click:Connect(function()
-    print("Best fruit added!")
-    -- Add your custom logic here
+bestFruit.MouseButton1Click:Connect(function()
+    print("Best Fruit added!") -- Replace this with your logic
 end)
 
--- Drag logic
-local drag = { enabled = false, start = nil, startPos = nil }
+-- Dragging
+local drag = {enabled = false, start = nil, startPos = nil}
 
 main.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
