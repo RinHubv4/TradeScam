@@ -8,7 +8,7 @@ gui.Name = "CoolUI"
 gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
 
 local main = Instance.new("Frame")
-main.Size = UDim2.new(0, 200, 0, 160)
+main.Size = UDim2.new(0, 200, 0, 200) -- updated to fit new button
 main.Position = UDim2.new(0.5, -100, 0.5, -80)
 main.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- neon green
 main.BorderSizePixel = 0
@@ -63,7 +63,7 @@ local function makeToggle(text, yPos)
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 40, 0, 20)
     btn.Position = UDim2.new(1, -45, 0.5, -10)
-    btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- black toggle button (off state)
+    btn.BackgroundColor3 = Color3.fromRGB(0, 0, 0) -- changed to black
     btn.BorderSizePixel = 0
     btn.Text = ""
     btn.Parent = base
@@ -92,7 +92,7 @@ local function makeToggle(text, yPos)
     btn.MouseButton1Click:Connect(function()
         on = not on
         local goals = {
-            [btn] = {BackgroundColor3 = on and Color3.fromRGB(0, 255, 127) or Color3.fromRGB(0, 0, 0)}, -- glow when on, black when off
+            [btn] = {BackgroundColor3 = on and Color3.fromRGB(0, 0, 0) or Color3.fromRGB(0, 0, 0)}, -- stays black
             [dot] = {Position = on and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)}
         }
         for obj, goal in pairs(goals) do
@@ -104,6 +104,7 @@ end
 makeToggle("Freeze Trade", 40)
 makeToggle("Auto Accept", 80)
 makeToggle("Auto Add Items", 120)
+makeToggle("Add Best Fruit", 160) -- new toggle
 
 local drag = {
     enabled = false,
