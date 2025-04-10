@@ -10,26 +10,33 @@ gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
 local main = Instance.new("Frame")
 main.Size = UDim2.new(0, 200, 0, 160)
 main.Position = UDim2.new(0.5, -100, 0.5, -80)
-main.BackgroundColor3 = Color3.fromRGB(30, 100, 30) -- changed to green
+main.BackgroundColor3 = Color3.fromRGB(0, 255, 0) -- neon green
 main.BorderSizePixel = 0
 main.Parent = gui
 Instance.new("UICorner", main).CornerRadius = UDim.new(0, 10)
 
--- Updated UIGradient to green tones (optional)
+-- Neon-like stroke glow effect
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(0, 255, 100)
+stroke.Thickness = 2
+stroke.Transparency = 0.3
+stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+stroke.Parent = main
+
+-- Optional: darker green gradient to simulate glow depth
 local bg = Instance.new("UIGradient")
 bg.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(50, 200, 50)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(30, 150, 30))
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 255, 150)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 180, 80))
 })
 bg.Parent = main
--- To remove gradient entirely, just delete the block above.
 
 local shadow = Instance.new("ImageLabel")
 shadow.Size = UDim2.new(1, 30, 1, 30)
 shadow.Position = UDim2.new(0, -15, 0, -15)
 shadow.BackgroundTransparency = 1
 shadow.Image = "rbxassetid://297774371"
-shadow.ImageColor3 = Color3.fromRGB(15, 15, 20)
+shadow.ImageColor3 = Color3.fromRGB(0, 255, 100)
 shadow.ImageTransparency = 0.6
 shadow.Parent = main
 
@@ -38,6 +45,7 @@ label.Size = UDim2.new(1, 0, 0, 30)
 label.BackgroundTransparency = 1
 label.Text = "Rin Hub"
 label.TextColor3 = Color3.fromRGB(255, 255, 255)
+label.TextStrokeTransparency = 0.7 -- glow-like stroke
 label.TextSize = 16
 label.Font = Enum.Font.GothamBold
 label.Parent = main
@@ -46,7 +54,7 @@ local function makeToggle(text, yPos)
     local base = Instance.new("Frame")
     base.Size = UDim2.new(0.9, 0, 0, 30)
     base.Position = UDim2.new(0.5, 0, 0, yPos)
-    base.BackgroundColor3 = Color3.fromRGB(30, 50, 30)
+    base.BackgroundColor3 = Color3.fromRGB(0, 100, 0)
     base.BorderSizePixel = 0
     base.AnchorPoint = Vector2.new(0.5, 0)
     base.Parent = main
@@ -55,7 +63,7 @@ local function makeToggle(text, yPos)
     local btn = Instance.new("TextButton")
     btn.Size = UDim2.new(0, 40, 0, 20)
     btn.Position = UDim2.new(1, -45, 0.5, -10)
-    btn.BackgroundColor3 = Color3.fromRGB(60, 60, 65)
+    btn.BackgroundColor3 = Color3.fromRGB(40, 255, 100)
     btn.BorderSizePixel = 0
     btn.Text = ""
     btn.Parent = base
@@ -84,7 +92,7 @@ local function makeToggle(text, yPos)
     btn.MouseButton1Click:Connect(function()
         on = not on
         local goals = {
-            [btn] = {BackgroundColor3 = on and Color3.fromRGB(0, 170, 255) or Color3.fromRGB(60, 60, 65)},
+            [btn] = {BackgroundColor3 = on and Color3.fromRGB(0, 255, 127) or Color3.fromRGB(40, 255, 100)},
             [dot] = {Position = on and UDim2.new(1, -18, 0.5, -8) or UDim2.new(0, 2, 0.5, -8)}
         }
         for obj, goal in pairs(goals) do
